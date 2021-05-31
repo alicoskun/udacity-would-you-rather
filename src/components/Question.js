@@ -10,7 +10,7 @@ class Question extends Component {
     if (question === null) {
       return <p>This poll doesn't exist</p>;
     }
-
+    
     const { pollId, avatarURL, author, answerText } = question;
 
     return (
@@ -26,7 +26,7 @@ class Question extends Component {
           <div className="border-left ml-3 pl-3 w-100">
             <Card.Text className="text-bold h5">Would you rather</Card.Text>
             <Card.Text className="text-muted">...{answerText}...</Card.Text>
-            <NavLink className="w-100 btn btn-sm btn-outline-success" to="/">View Poll</NavLink>
+            <NavLink className="w-100 btn btn-sm btn-outline-success" to={`/question/${pollId}`}>View Poll</NavLink>
           </div>
         </div>
         </Card.Body>
@@ -39,14 +39,32 @@ function mapStateToProps({ authedUser, users, questions }, { id }) {
   const question = questions[id];
   const user = users[authedUser];
   const answer = question[user.answers[id]];
+  const authorUser = users[question.author];
+  let answerText = '';
+
+  // if the question is answered
+  if (answer) {
+    answerText = answer.text;
+  }
+  else {    
+    const optionOneCount = question.optionOne.votes.length;
+    const optionTwoCount = question.optionTwo.votes.length;
+
+    if (optionOneCount > optionTwoCount) {
+      answerText = question.optionOne.text;
+    }
+    else {
+      answerText = question.optionTwo.text;
+    }
+  }
 
   return {
     question: question
       ? {
         pollId: id,
-        avatarURL: user.avatarURL,
-        author: questions.author,
-        answerText: question[answer]
+        avatarURL: users[question.author].avatarURL,
+        author: authorUser.name,
+        answerText
       }
       : null,
     authedUser

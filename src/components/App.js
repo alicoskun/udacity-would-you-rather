@@ -8,6 +8,7 @@ import NavComponent from './NavComponent';
 import Dashboard from './Dashboard';
 import NewQuestion from './NewQuestion';
 import LeaderBoard from './LeaderBoard';
+import PollPage from './PollPage';
 
 class App extends Component {
   componentDidMount() {
@@ -30,6 +31,7 @@ class App extends Component {
                 <Col sm={5} className="mx-auto">
                   <div>
                     <Route path="/" exact component={Dashboard} />
+                    <Route path="/question/:id" component={PollPage} />
                     <Route path="/new-question" component={NewQuestion} />
                     <Route path="/leader-board" component={LeaderBoard} />
                   </div>
