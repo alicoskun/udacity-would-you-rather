@@ -14,7 +14,7 @@ class Question extends Component {
     const { pollId, avatarURL, author, answerText } = question;
 
     return (
-      <Card>
+      <Card className="mx-2 my-2">
         <Card.Header>
           <Card.Subtitle className="my-1">
             {author} asks
