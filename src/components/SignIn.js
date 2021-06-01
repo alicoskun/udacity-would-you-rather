@@ -9,7 +9,7 @@ class SignIn extends Component {
   };
   
   handleChange = (e) => {
-    const selectedUser = e.target.value;
+    const selectedUser = e.target.value === 'Select user' ? '' : e.target.value;
 
     this.setState(() => ({ selectedUser }));
   }
@@ -40,7 +40,7 @@ class SignIn extends Component {
               </option>
             ))}
           </select>
-          <Button className="w-100 mt-3" variant="success" onClick={this.setAuthedUser}>Sign In</Button>
+          <Button className="w-100 mt-3" disabled={!this.state.selectedUser} variant="success" onClick={this.setAuthedUser}>Sign In</Button>
         </Card.Body>
       </Card>
     );

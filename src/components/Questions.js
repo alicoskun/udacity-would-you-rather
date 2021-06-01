@@ -17,12 +17,17 @@ class Questions extends Component {
     }
 
     if (loading) {
-      return <span>loading...</span>;
+      return <span className="d-block h1 text-center">loading...</span>;
     }
+    
+    const answeredQuestionIds = Object.keys(user.answers).sort(
+      (a, b) => questions[b].timestamp - questions[a].timestamp);
 
-    const answeredQuestionIds = Object.keys(user.answers);
     const allQuestionsIds = Object.keys(questions);
-    const unansweredQuestionIds = allQuestionsIds.filter(id => !answeredQuestionIds.includes(id));
+
+    let unansweredQuestionIds = allQuestionsIds.filter(id => !answeredQuestionIds.includes(id));    
+    unansweredQuestionIds = unansweredQuestionIds.sort(
+      (a, b) => questions[b].timestamp - questions[a].timestamp);
 
     return (
       <Tabs fill defaultActiveKey="unanswered">

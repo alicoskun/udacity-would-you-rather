@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Questions from './Questions';
-import SignIn from './SignIn';
 
 class LeaderBoard extends Component {
   render() {
