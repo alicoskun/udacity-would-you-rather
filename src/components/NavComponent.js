@@ -22,10 +22,10 @@ class NavComponent extends Component {
             <NavLink className="nav-link" to="/" exact activeClassName="active">
               Home
             </NavLink>
-            <NavLink className="nav-link" to="/new-question">
+            <NavLink className="nav-link" to="/add">
               New Question
             </NavLink>
-            <NavLink className="nav-link" to="/leader-board">
+            <NavLink className="nav-link" to="/leaderboard">
               Leader Board
             </NavLink>
           </Nav>

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
-import Question from './Question';
+import QuestionComponent from './QuestionComponent';
 import { handleQuestionData } from '../actions/questions';
 
-class Questions extends Component {
+class QuestionsComponent extends Component {
   componentDidMount() {
-    this.props.dispatch(handleQuestionData());
+    if (!this.props.questions) {
+      this.props.dispatch(handleQuestionData());
+    }
   }
   
   render() {
@@ -16,8 +18,8 @@ class Questions extends Component {
       padding: '10px'
     }
 
-    if (loading) {
-      return <span className="d-block h1 text-center">loading...</span>;
+    if (loading || !questions) {
+      return <span className="d-block h2 text-center">loading...</span>;
     }
     
     const answeredQuestionIds = Object.keys(user.answers).sort(
@@ -31,23 +33,31 @@ class Questions extends Component {
 
     return (
       <Tabs fill defaultActiveKey="unanswered">
-        <Tab eventKey="unanswered" title="Unanswered Questions" style={tabStyle}>
-          {unansweredQuestionIds.map(q => <Question key={q} id={q} />)}
+        <Tab eventKey="unanswered" title="Unanswered Questions" style={tabStyle}>          
+          {
+            unansweredQuestionIds.length
+              ? unansweredQuestionIds.map(q => <QuestionComponent key={q} id={q} />)
+              : <span className="d-block text-center my-5">There is no unanswered question.</span>
+          }
         </Tab>
         <Tab eventKey="answered" title="Answered Questions" style={tabStyle}>
-          {answeredQuestionIds.map(q => <Question key={q} id={q} />)}
+          {
+            answeredQuestionIds.length 
+              ? answeredQuestionIds.map(q => <QuestionComponent key={q} id={q} />)
+              : <span className="d-block text-center my-5">There is no answered question.</span>
+          }
         </Tab>
       </Tabs>
     );
   }
 }
 
-function mapStateToProps({ authedUser, users, questions }) {
+function mapStateToProps({ authedUser, users, questions, loadingBar }) {
   return {
     user: users[authedUser],
     questions,
-    loading: questions === null,
+    loading: loadingBar.default,
   };
 }
 
-export default connect(mapStateToProps)(Questions);
+export default connect(mapStateToProps)(QuestionsComponent);

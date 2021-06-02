@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Card, Button } from 'react-bootstrap';
 import { setAuthedUser } from '../actions/authedUser';
 
-class SignIn extends Component {
+class SignInComponent extends Component {
   state = {
     selectedUser: '',
   };
@@ -53,4 +53,4 @@ function mapStateToProps({ users }) {
   };
 }
 
-export default connect(mapStateToProps)(SignIn);
+export default connect(mapStateToProps)(SignInComponent);

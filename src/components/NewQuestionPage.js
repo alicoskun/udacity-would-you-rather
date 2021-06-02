@@ -2,17 +2,11 @@ import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import { handleAddNewQuestion } from '../actions/questions';
 
 class NewQuestion extends Component {
-
-  componentDidMount() {
-    if (!this.props.authedUser) {
-      this.props.history.push('/');
-    }
-  }
-
-  state= {
+  state = {
     optionOneText: '',
     optionTwoText: ''
   }
@@ -39,11 +33,21 @@ class NewQuestion extends Component {
   }
 
   render() {
+    
+    if (!this.props.authedUser) {
+      return (
+        <div className="d-block text-center">
+          <span className="d-block h3 my-5">You need to sign in to display this page.</span>
+          <Link to="/"><Button variant="success">Sign in</Button></Link>
+        </div>
+      );
+    }
+
     return (
       <Card>
         <Card.Header>
           <Card.Subtitle className="my-1 text-center">
-            Create new Questions
+            Create New Questions
           </Card.Subtitle>
         </Card.Header>
         <Card.Body className="p-3">

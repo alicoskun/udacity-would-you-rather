@@ -5,9 +5,9 @@ import LoadingBar from 'react-redux-loading';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import NavComponent from './NavComponent';
-import Dashboard from './Dashboard';
-import NewQuestion from './NewQuestion';
-import LeaderBoard from './LeaderBoard';
+import DashboardPage from './DashboardPage';
+import NewQuestionPage from './NewQuestionPage';
+import LeaderboardPage from './LeaderboardPage';
 import PollPage from './PollPage';
 
 class App extends Component {
@@ -30,10 +30,10 @@ class App extends Component {
               <Row>
                 <Col sm={5} className="mx-auto">
                   <div>
-                    <Route path="/" exact component={Dashboard} />
+                    <Route path="/" exact component={DashboardPage} />
                     <Route path="/question/:id" component={PollPage} />
-                    <Route path="/new-question" component={NewQuestion} />
-                    <Route path="/leader-board" component={LeaderBoard} />
+                    <Route path="/add" component={NewQuestionPage} />
+                    <Route path="/leaderboard" component={LeaderboardPage} />
                   </div>
                 </Col>
               </Row>

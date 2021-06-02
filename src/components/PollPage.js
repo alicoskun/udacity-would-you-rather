@@ -4,15 +4,7 @@ import { connect } from 'react-redux';
 import { handleSetQuestionAnswer } from '../actions/questions';
 import { withRouter } from 'react-router-dom';
 
-class PollPage extends Component {
-  constructor(props) {
-    super(props);
-
-    if (!this.props.question) {
-      this.props.history.push('/');
-    }
-  }
-  
+class PollPage extends Component {  
   state = {
     selectedOption: 'optionOne',
   };
@@ -35,10 +27,19 @@ class PollPage extends Component {
   }
 
   render() {
-    const { id, question, authorName, authorAvatar, user } = this.props;
+    const { id, question, authorName, authorAvatar, user, authedUser, loading } = this.props;
+    
+
+    if (loading) {
+      return <span className="d-block h2 text-center">loading...</span>;
+    }
+
+    if (!authedUser) {
+      return <span className="d-block text-center h3 mt-5">You need to log in to display this page.</span>
+    }
 
     if (!question) {
-      return <span>This question does not exist!</span>
+      return <span className="d-block text-center h3 mt-5">This question does not exist!</span>
     }
 
     const answer = user.answers[id];
@@ -66,11 +67,13 @@ class PollPage extends Component {
                   Would you rather {question.optionOne.text}?
                   <ProgressBar variant="success" className="mt-3" now={progressOne} label={`${progressOne}%`} />
                   <span className="font-weight-bold text-center d-block">{optionOneCount} out of {totalAnswerCount} vote(s)</span>
+                  {answer === 'optionOne' && (<span className="badge badge-warning d-inline-block">Voted</span>)}
                 </Alert>
                 <Alert key="optionTwo" variant={answer === 'optionTwo' ? 'success' : 'secondary'}>
                   Would you rather {question.optionTwo.text}?
                   <ProgressBar variant="success" className="mt-3" now={progressTwo} label={`${progressTwo}%`} />
                   <span className="font-weight-bold text-center d-block">{optionTwoCount} out of {totalAnswerCount} vote(s)</span>
+                  {answer === 'optionTwo' && (<span className="badge badge-warning d-inline-block">Voted</span>)}
                 </Alert>
               </div>
             </div>
@@ -111,7 +114,7 @@ class PollPage extends Component {
   }
 }
 
-function mapStateToProps({ authedUser, questions, users }, props) {
+function mapStateToProps({ authedUser, questions, users, loadingBar }, props) {
   if (!questions) {
     return {};
   }
@@ -126,7 +129,9 @@ function mapStateToProps({ authedUser, questions, users }, props) {
     question,
     authorName: author.name,
     authorAvatar: author.avatarURL,
-    user
+    user,
+    authedUser,
+    loading: loadingBar.default
   };
 }
 

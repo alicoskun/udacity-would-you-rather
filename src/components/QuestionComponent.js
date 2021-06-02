@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Card } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
-class Question extends Component {
+class QuestionComponent extends Component {
   render() {    
     const { question } = this.props;
 
@@ -71,4 +71,4 @@ function mapStateToProps({ authedUser, users, questions }, { id }) {
   };
 }
 
-export default connect(mapStateToProps)(Question);
+export default connect(mapStateToProps)(QuestionComponent);

@@ -36,10 +36,12 @@ function setQuestionAnswer({ authedUser, qid, answer }) {
 export function handleSetQuestionAnswer(info) {
   return (dispatch) => {
     dispatch(showLoading());
-    dispatch(setQuestionAnswer(info));
-    dispatch(setUserAnswer(info));
 
     return saveQuestionAnswer(info)
+    .then((question) => {
+      dispatch(setQuestionAnswer(question))
+      dispatch(setUserAnswer(question))
+    })
       .then(() => dispatch(hideLoading()));
   };
 }
