@@ -1,38 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
-class QuestionComponent extends Component {
-  render() {    
-    const { question } = this.props;
+const QuestionComponent = (props) => {
+  const { question } = props;
 
-    if (question === null) {
-      return <p>This poll doesn't exist</p>;
-    }
-    
-    const { pollId, avatarURL, author, answerText } = question;
-
-    return (
-      <Card className="mx-2 my-2">
-        <Card.Header>
-          <Card.Subtitle className="my-1">
-            {author} asks
-          </Card.Subtitle>
-        </Card.Header>
-        <Card.Body className="p-3">
-        <div className="d-flex align-items-center">
-          <Card.Img className="card-img w-25" variant="top" src={avatarURL} />
-          <div className="border-left ml-3 pl-3 w-100">
-            <Card.Text className="text-bold h5">Would you rather</Card.Text>
-            <Card.Text className="text-muted">...{answerText}...</Card.Text>
-            <NavLink className="w-100 btn btn-sm btn-outline-success" to={`/question/${pollId}`}>View Poll</NavLink>
-          </div>
-        </div>
-        </Card.Body>
-      </Card>
-    );
+  if (question === null) {
+    return <p>This poll doesn't exist</p>;
   }
+  
+  const { pollId, avatarURL, author, answerText } = question;
+
+  return (
+    <Card className="mx-2 my-2">
+      <Card.Header>
+        <Card.Subtitle className="my-1">
+          {author} asks
+        </Card.Subtitle>
+      </Card.Header>
+      <Card.Body className="p-3">
+      <div className="d-flex align-items-center">
+        <Card.Img className="card-img w-25" variant="top" src={avatarURL} />
+        <div className="border-left ml-3 pl-3 w-100">
+          <Card.Text className="text-bold h5">Would you rather</Card.Text>
+          <Card.Text className="text-muted">...{answerText}...</Card.Text>
+          <NavLink className="w-100 btn btn-sm btn-outline-success" to={`/question/${pollId}`}>View Poll</NavLink>
+        </div>
+      </div>
+      </Card.Body>
+    </Card>
+  );
 }
 
 function mapStateToProps({ authedUser, users, questions }, { id }) {
