@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Navbar, Nav, Image } from 'react-bootstrap';
-import { setAuthedUser } from '../actions/authedUser';
+import { logout } from '../actions/authedUser';
 
 const NavComponent = (props) => {
-  const { users, authedUser, history, dispatch } = props;
+  const { users, authedUser, dispatch } = props;
 
   const handleLogout = () => {
-    dispatch(setAuthedUser(''));
-    history.push('/');
+    dispatch(logout());
   }
 
   const userId = authedUser;

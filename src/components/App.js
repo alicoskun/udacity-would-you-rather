@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { handleInitialData } from '../actions/shared';
 import LoadingBar from 'react-redux-loading';
 import { connect } from 'react-redux';
@@ -9,12 +9,13 @@ import DashboardPage from './DashboardPage';
 import NewQuestionPage from './NewQuestionPage';
 import LeaderboardPage from './LeaderboardPage';
 import PollPage from './PollPage';
+import SignInComponent from './SignInComponent';
 
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(handleInitialData());
   }
-
+  
   render() {
     return (
       <Router>
@@ -30,10 +31,14 @@ class App extends Component {
               <Row>
                 <Col sm={5} className="mx-auto">
                   <div>
-                    <Route path="/" exact component={DashboardPage} />
-                    <Route path="/question/:id" component={PollPage} />
-                    <Route path="/add" component={NewQuestionPage} />
-                    <Route path="/leaderboard" component={LeaderboardPage} />
+                    {this.props.authedUser === '' ? <SignInComponent /> : (
+                      <Switch>
+                        <Route exact path="/" component={DashboardPage} />
+                        <Route exact path="/question/:id" component={PollPage} />
+                        <Route exact path="/add" component={NewQuestionPage} />
+                        <Route exact path="/leaderboard" component={LeaderboardPage} />
+                      </Switch>
+                    )}
                   </div>
                 </Col>
               </Row>
@@ -45,8 +50,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({ users }) {
+function mapStateToProps({ users, authedUser }) {
   return {
+    authedUser,
     loading: users === null,
   };
 }

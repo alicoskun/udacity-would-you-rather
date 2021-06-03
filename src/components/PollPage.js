@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { Card, Button, Alert, ProgressBar } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { handleSetQuestionAnswer } from '../actions/questions';
+import { handleQuestionData, handleSetQuestionAnswer } from '../actions/questions';
 import { withRouter } from 'react-router-dom';
 
-class PollPage extends Component {  
+class PollPage extends Component {
+  componentDidMount() {
+    if (!this.props.questions) {
+      this.props.dispatch(handleQuestionData());
+    }
+  }
+
   state = {
     selectedOption: 'optionOne',
   };
@@ -27,18 +33,13 @@ class PollPage extends Component {
   }
 
   render() {
-    const { id, question, authorName, authorAvatar, user, authedUser, loading } = this.props;
+    const { id, question, authorName, authorAvatar, user, status } = this.props;
     
-
-    if (loading) {
+    if (status === 1) {
       return <span className="d-block h2 text-center">loading...</span>;
     }
 
-    if (!authedUser) {
-      return <span className="d-block text-center h3 mt-5">You need to log in to display this page.</span>
-    }
-
-    if (!question) {
+    if (status === 2) {
       return <span className="d-block text-center h3 mt-5">This question does not exist!</span>
     }
 
@@ -114,13 +115,18 @@ class PollPage extends Component {
   }
 }
 
-function mapStateToProps({ authedUser, questions, users, loadingBar }, props) {
+function mapStateToProps({ authedUser, questions, users }, props) {
   if (!questions) {
-    return {};
+    return { status: 1 };
   }
-  
+
   const { id } = props.match.params;
   const question = questions[id];
+
+  if (!question) {
+    return {status:2};
+  }
+
   const author = users[question.author];
   const user = users[authedUser];
 
@@ -131,7 +137,7 @@ function mapStateToProps({ authedUser, questions, users, loadingBar }, props) {
     authorAvatar: author.avatarURL,
     user,
     authedUser,
-    loading: loadingBar.default
+    questions
   };
 }
 

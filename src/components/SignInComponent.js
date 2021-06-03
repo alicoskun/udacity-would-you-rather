@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, Button } from 'react-bootstrap';
-import { setAuthedUser } from '../actions/authedUser';
+import { login } from '../actions/authedUser';
 
 class SignInComponent extends Component {
   state = {
@@ -10,12 +10,11 @@ class SignInComponent extends Component {
   
   handleChange = (e) => {
     const selectedUser = e.target.value === 'Select user' ? '' : e.target.value;
-
     this.setState(() => ({ selectedUser }));
   }
 
   setAuthedUser = () => {
-    this.props.dispatch(setAuthedUser(this.state.selectedUser));
+    this.props.dispatch(login(this.state.selectedUser));
   }
 
   render() {
@@ -28,7 +27,7 @@ class SignInComponent extends Component {
           </Card.Subtitle>
         </Card.Header>
         <Card.Body>
-          <Card.Img className="card-img w-50 my-5" variant="top" src="react-redux.png" />
+          <Card.Img className="card-img w-50 my-5" variant="top" src="/react-redux.png" />
           <Card.Text className="h3 text-success mb-4">
             Sign in
           </Card.Text>
